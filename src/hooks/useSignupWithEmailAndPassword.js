@@ -2,6 +2,8 @@ import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firesto
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '../firebase/firebase';
 import useShowToast from './useShowToast';
+import useUpdateCategories from './useUpdateCategories';
+import useAuthStore from '../store/authStore';
 
 const useSignupWithEmailAndPassword = () => {
     const [
@@ -11,7 +13,9 @@ const useSignupWithEmailAndPassword = () => {
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
 
+    const {updateCategories} = useUpdateCategories();
     const showToast = useShowToast();
+    const loginUser = useAuthStore(state => state.login);
 
     const signup = async (inputs) => {
 
@@ -29,7 +33,7 @@ const useSignupWithEmailAndPassword = () => {
             return;
         }
 
-        try {
+        try {updateCategories
             const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
 
             if(!newUser && error) {
@@ -48,6 +52,10 @@ const useSignupWithEmailAndPassword = () => {
 
                 await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
                 localStorage.setItem("user-info", JSON.stringify(userDoc));
+                loginUser(userDoc);
+
+                // Create Category
+                await updateCategories({uid: newUser.user.uid});
             }
 
         } catch (error) {

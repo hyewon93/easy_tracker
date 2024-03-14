@@ -3,11 +3,17 @@ import { auth, firestore } from "../../firebase/firebase";
 import useShowToast from "../../hooks/useShowToast";
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import useAuthStore from "../../store/authStore";
+import useCategoryStore from "../../store/categoryStore";
+import useUpdateCategories from "../../hooks/useUpdateCategories";
 
 const GoogleAuth = ({ prefix }) => {
 
     const [signInWithGoogle, , , error] = useSignInWithGoogle(auth);
+    const {updateCategories} = useUpdateCategories();
     const showToast = useShowToast();
+    const loginUser = useAuthStore((state) => state.login);
+    const setCategory = useCategoryStore((state) => state.setCategory);
 
     const handleGoogleAuth = async () => {
         try {
@@ -26,6 +32,12 @@ const GoogleAuth = ({ prefix }) => {
 
                 const userDoc = userSnap.data();
                 localStorage.setItem("user-info", JSON.stringify(userDoc));
+                loginUser(userDoc);
+
+                const categoryDocRef = doc(firestore, "categories", newUser.user.uid);
+                const categoryDocSnap = await getDoc(categoryDocRef);
+                setCategory(categoryDocSnap.data());
+
             } else {
                 // Signup
 
@@ -39,6 +51,10 @@ const GoogleAuth = ({ prefix }) => {
 
                 await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
                 localStorage.setItem("user-info", JSON.stringify(userDoc));
+                loginUser(userDoc);
+
+                // Create Category
+                await updateCategories({uid: newUser.user.uid});
             }
 
         } catch (error) {

@@ -2,6 +2,8 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import useShowToast from "./useShowToast"
 import { doc, getDoc } from "firebase/firestore";
 import { auth, firestore } from "../firebase/firebase";
+import useAuthStore from "../store/authStore";
+import useCategoryStore from "../store/categoryStore";
 
 const useLogin = () => {
   const showToast = useShowToast();
@@ -11,6 +13,9 @@ const useLogin = () => {
     loading,
     error,
   ] = useSignInWithEmailAndPassword(auth);
+
+  const loginUser = useAuthStore((state) => state.login);
+  const setCategory = useCategoryStore((state) => state.setCategory);
 
   const login = async (inputs) => {
     if(!inputs.email || !inputs.password) {
@@ -24,6 +29,11 @@ const useLogin = () => {
             const docRef = doc(firestore, "users", userCred.user.uid);
             const docSnap = await getDoc(docRef);
             localStorage.setItem("user-info", JSON.stringify(docSnap.data()));
+            loginUser(docSnap.data());
+
+            const categoryDocRef = doc(firestore, "categories", userCred.user.uid);
+            const categoryDocSnap = await getDoc(categoryDocRef);
+            setCategory(categoryDocSnap.data());
         }
 
     } catch (error) {
