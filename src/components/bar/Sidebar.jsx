@@ -20,6 +20,7 @@ const Sidebar = () => {
             top={0}
             left={0}
             px={4}
+            w={"250px"}
         >
             <Flex direction={"column"} gap={10} w="full" height={"full"}>
                 <Flex justifyContent={"center"}>

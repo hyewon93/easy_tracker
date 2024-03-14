@@ -40,7 +40,7 @@ const SidebarItems = () => {
         </Link>
         <Link 
             display={"flex"}
-            to="/"
+            to="/settings"
             as={RouterLink}
             alignItems={"center"}
             gap={4}

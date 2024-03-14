@@ -16,20 +16,16 @@ const PageLayout = ({ children }) => {
     }
 
     return (
-        <Flex flexDir="column">
+        <Flex flexDir={{ base: "column", md: "row"}}>
 
             {canRenderBar ? (
                 <>
-                <Box w={"240px"}>
-                    <Sidebar />
-                </Box>
-                <Box w={"full"}>
-                    <Navbar />
-                </Box>
+                <Sidebar />
+                <Navbar />
                 </>
             ) : null}
 
-            <Box flex={1} w={{ base: "calc(100% - 70px)", md: "calc(100% - 240px)" }} mx={"auto"}>
+            <Box flex={1} w={"calc(100% - 250px)"} mx={"auto"}>
                 {children}
             </Box>
         </Flex>

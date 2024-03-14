@@ -33,6 +33,7 @@ const GoogleAuth = ({ prefix }) => {
                     uid: newUser.user.uid,
                     email: newUser.user.email,
                     fullName: newUser.user.displayName,
+                    profilePicURL: newUser.user.photoURL,
                     createdAt: Date.now()
                 };
 

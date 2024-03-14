@@ -42,6 +42,7 @@ const useSignupWithEmailAndPassword = () => {
                     uid: newUser.user.uid,
                     email: inputs.email,
                     fullName: inputs.fullName,
+                    profilePicURL: "",
                     createdAt: Date.now()
                 };
 
