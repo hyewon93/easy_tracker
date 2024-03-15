@@ -2,10 +2,25 @@ import { Avatar, AvatarGroup, Button, Container, Flex, Image, Table, TableContai
 import { MdModeEdit } from "react-icons/md";
 import EditProfileModal from '../components/settings/EditProfileModal';
 import useCategoryStore from '../store/categoryStore';
+import EditCategoryModal from '../components/settings/EditCategoryModal';
 
 const SettingPage = () => {
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { 
+        isOpen: isOpenProfile, 
+        onOpen: onOpenProfile, 
+        onClose: onCloseProfile 
+    } = useDisclosure();
+    const { 
+        isOpen: isOpenIncomeCategory, 
+        onOpen: onOpenIncomeCategory, 
+        onClose: onCloseIncomeCategory 
+    } = useDisclosure();
+    const { 
+        isOpen: isOpenExpensesCategory, 
+        onOpen: onOpenExpensesCategory, 
+        onClose: onCloseExpensesCategory 
+    } = useDisclosure();
     const authUser = JSON.parse(localStorage.getItem("user-info"));
     const categories = useCategoryStore(state => state.categories);
 
@@ -15,7 +30,7 @@ const SettingPage = () => {
                 <Flex justifyContent={"flex-end"} w={"full"} pt={3} pr={3}>
                     <Button 
                         bg={"transparent"} 
-                        onClick={onOpen}
+                        onClick={onOpenProfile}
                     >
                         <MdModeEdit />
                     </Button>
@@ -29,7 +44,7 @@ const SettingPage = () => {
                         <Text fontSize={"sm"}>{authUser.email}</Text>
                     </VStack>
 
-                    {isOpen && <EditProfileModal isOpen={isOpen} onClose={onClose} /> }
+                    {isOpenProfile && <EditProfileModal isOpen={isOpenProfile} onClose={onCloseProfile} /> }
                 </Flex>
             </Flex>
 
@@ -37,7 +52,7 @@ const SettingPage = () => {
                 <Flex justifyContent={"flex-end"} w={"full"} pt={3} pr={3}>
                     <Button 
                         bg={"transparent"} 
-                        onClick={onOpen}
+                        onClick={onOpenIncomeCategory}
                     >
                         <MdModeEdit />
                     </Button>
@@ -65,13 +80,15 @@ const SettingPage = () => {
                             </Tbody>
                         </Table>
                     </TableContainer>
+
+                    {isOpenIncomeCategory && <EditCategoryModal type={"income"} isOpen={isOpenIncomeCategory} onClose={onCloseIncomeCategory} /> }
                 </Flex>
             </Flex>
             <Flex pb={10} pl={10} mt={5} w={"full"} mx={"auto"} flexDirection={"column"} bg={"white"} borderRadius={10}>
                 <Flex justifyContent={"flex-end"} w={"full"} pt={3} pr={3}>
                     <Button 
                         bg={"transparent"} 
-                        onClick={onOpen}
+                        onClick={onOpenExpensesCategory}
                     >
                         <MdModeEdit />
                     </Button>
@@ -98,6 +115,8 @@ const SettingPage = () => {
                             </Tbody>
                         </Table>
                     </TableContainer>
+
+                    {isOpenExpensesCategory && <EditCategoryModal type={"expenses"} isOpen={isOpenExpensesCategory} onClose={onCloseExpensesCategory} /> }
                 </Flex>
             </Flex>
         </Container>

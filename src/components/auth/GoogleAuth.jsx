@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import useAuthStore from "../../store/authStore";
 import useCategoryStore from "../../store/categoryStore";
 import useUpdateCategories from "../../hooks/useUpdateCategories";
+import useCurrentCategoryStore from "../../store/currentCategoryStore";
 
 const GoogleAuth = ({ prefix }) => {
 
@@ -14,6 +15,7 @@ const GoogleAuth = ({ prefix }) => {
     const showToast = useShowToast();
     const loginUser = useAuthStore((state) => state.login);
     const setCategory = useCategoryStore((state) => state.setCategory);
+    const setCurrentCategories = useCurrentCategoryStore((state) => state.setCurrentCategories);
 
     const handleGoogleAuth = async () => {
         try {
@@ -37,6 +39,7 @@ const GoogleAuth = ({ prefix }) => {
                 const categoryDocRef = doc(firestore, "categories", newUser.user.uid);
                 const categoryDocSnap = await getDoc(categoryDocRef);
                 setCategory(categoryDocSnap.data());
+                setCurrentCategories(categoryDocSnap.data());
 
             } else {
                 // Signup

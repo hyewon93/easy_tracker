@@ -9,8 +9,6 @@ const useEditProfile = () => {
     const showToast = useShowToast();
 
     const authUser = JSON.parse(localStorage.getItem("user-info"));
-
-    console.log(authUser);
     
     const editProfile = async (inputs, selectedFile) => {
 
