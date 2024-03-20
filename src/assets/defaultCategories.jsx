@@ -3,84 +3,84 @@ export const defaultCategory = {
         {
             name: "Salary",
             color: "#3f51b5",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fmoney.png?alt=media&token=8f81c131-9f27-4c9a-9b51-e1a5e619bbe7",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_money.png?alt=media&token=4f28204a-b101-4f97-a2ef-8783880e3c62",
         },
         {
             name: "Bonus",
             color: "#03a9f4",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fstar.png?alt=media&token=4b036981-f3fb-45b4-a6b0-69b00bf82b0f",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_star.png?alt=media&token=6d4317cb-fe18-4659-b6b6-3969db50f2e3",
         },
         {
             name: "Other",
             color: "#607d8b",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fsave-instagram.png?alt=media&token=01decc1e-0188-4a0f-8a8d-dcde1b40aaa7",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_save-instagram.png?alt=media&token=dc8dae88-01f3-4961-849d-25fff970d800",
         }
     ],
     expenses: [
         {
             name: "Grocery",
             color: "#009688",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fgrocery-cart.png?alt=media&token=78843cc7-3131-4402-b278-7be763f3893c"
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_grocery-cart.png?alt=media&token=ab89ea7e-c02e-4211-a649-0796c0ea3b0a"
         },
         {
             name: "Eating Out",
             color: "#ff5722",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Ffork.png?alt=media&token=331adac4-30d3-4a0c-9940-42aa54bc044e"
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_fork.png?alt=media&token=0571e42d-ede9-4394-a4f9-d462c591705b"
         },
         {
             name: "Social Life",
             color: "#ffc107",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Fface_human%2Ffriendship.png?alt=media&token=a6ee8eda-a8d0-4e50-87b2-c5af2a533778",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F5_friendship.png?alt=media&token=fe762fb8-7d1d-4461-b942-18d1dc30d451",
         },
         {
             name: "Pets",
             color: "#e91e63",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Fanimal_nature%2Fpet-food.png?alt=media&token=db4483df-7592-41d5-82c2-81d6d99402da",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F3_pet-food.png?alt=media&token=4e9d209e-e407-42f1-a10a-5d78b6f2f7f0",
         },
         {
             name: "Utilities",
             color: "#2196f3",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fbill.png?alt=media&token=30b514d7-35e9-42fe-b072-b9c8ef67f228",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_bill.png?alt=media&token=2b6ad59b-23e1-47d8-a2b4-54791fa05e48",
         },
         {
             name: "Transportation",
             color: "#795548",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Ftravel_locaiton%2Ftrain.png?alt=media&token=9557cea6-c921-4c5a-ae61-f4af50d4e415",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F2_train.png?alt=media&token=b53ab6e2-cfd3-4a9b-bb62-d974db398cf8",
         },
         {
             name: "Entertainment",
             color: "#ffeb3b",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fferris-wheel.png?alt=media&token=e402fce3-1068-4f4e-a33e-c3b9ce01e17e",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_ferris-wheel.png?alt=media&token=7921c0c5-d5c9-42e5-b5a3-1c898e7682a1",
         },
         {
             name: "Household",
             color: "#3f51b5",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Ftravel_locaiton%2Fhome_738873.png?alt=media&token=1b28eaa7-3bba-4d70-8c68-cac16412cc40",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F2_home_738873.png?alt=media&token=8448cd6d-2aec-49f8-b9c7-792816f08aa3",
         },
         {
             name: "Shopping",
             color: "#ff9800",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fonline-shopping.png?alt=media&token=a3dd64bb-786c-4d49-a25b-540d8a859587",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_online-shopping.png?alt=media&token=d47c29dc-f760-4e67-a9e7-b310600f5326",
         },
         {
             name: "Health",
             color: "#cddc39",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fhealthcare.png?alt=media&token=1fd0b241-2cda-4c5e-977b-9d806571f8d6",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_healthcare.png?alt=media&token=03058909-0418-4aca-9300-e810e2722701",
         },
         {
             name: "Education",
             color: "#673ab7",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Flearning.png?alt=media&token=2883c66c-9c6c-4e45-bf05-7190bed09d72",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_learning.png?alt=media&token=c1325b09-1a2a-48a6-92c5-06a12b5a4107",
         },
         {
             name: "Gift",
             color: "#9c27b0",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fgift.png?alt=media&token=69804384-7db7-48d3-8676-de8703205e05",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_gift.png?alt=media&token=e50ae2e5-ecaa-4b2e-9332-65456ca99723",
         },
         {
             name: "Other",
             color: "#607d8b",
-            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2Factivity_objects%2Fsave-instagram.png?alt=media&token=01decc1e-0188-4a0f-8a8d-dcde1b40aaa7",
+            url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_save-instagram.png?alt=media&token=dc8dae88-01f3-4961-849d-25fff970d800",
         }
     ]
 }

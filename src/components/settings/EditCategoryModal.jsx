@@ -3,12 +3,16 @@ import ColorTemplate from "../templates/ColorTemplate";
 import useCurrentCategoryStore from "../../store/currentCategoryStore";
 import useUpdateCategories from "../../hooks/useUpdateCategories";
 import useShowToast from "../../hooks/useShowToast";
+import useCategoryStore from "../../store/categoryStore";
+import IconTemplate from "../templates/IconTemplate";
 
-const EditCategoryModal = ({ type, isOpen, onClose }) => {
+const EditCategoryModal = ({ type, icons, isOpen, onClose }) => {
 
+  const categories = useCategoryStore(state => state.categories);
   const currentCategories = useCurrentCategoryStore(state => state.currentCategories);
   const setCurrentCategories = useCurrentCategoryStore(state => state.setCurrentCategories);
   const {isUpdating, updateCategories} = useUpdateCategories();
+    
   const showToast = useShowToast();
 
   const handleEditCategory = async () => {
@@ -23,6 +27,11 @@ const EditCategoryModal = ({ type, isOpen, onClose }) => {
 
   const handleChangeCategory = () => {
     console.log("change");
+  }
+
+  const handleCancel = () => {
+    setCurrentCategories(categories);
+    onClose();
   }
 
   return (
@@ -44,7 +53,17 @@ const EditCategoryModal = ({ type, isOpen, onClose }) => {
               <Tbody>
                 {(type === "income" ? currentCategories.incomes : currentCategories.expenses)?.map((category, idx) => (
                   <Tr key={idx}>
-                    <Td><Image width={"25px"} src={category.url} cursor={"pointer"} /></Td>
+                    <Td>
+                      <Popover styleConfig={{ maxWidth: 'unset', width: 'unset' }}>
+                        <PopoverTrigger>
+                          <Image width={"25px"} src={category.url} cursor={"pointer"} />
+                        </PopoverTrigger>
+                        <PopoverContent border="1px solid gray" bg={"white"} p={2} borderRadius={6}>
+                          <PopoverArrow bg={"gray"}/>
+                          <PopoverBody><IconTemplate categoryIcons={icons} idx={idx} type={type} currentCategories={currentCategories} setCurrentCategories={setCurrentCategories} /></PopoverBody>
+                        </PopoverContent>
+                      </Popover>
+                    </Td>
                     <Td justifyContent={"center"}>
                       
                       <Popover>
@@ -65,13 +84,13 @@ const EditCategoryModal = ({ type, isOpen, onClose }) => {
                       />
                     </Td>
                   </Tr>
-                ))};
+                ))}
               </Tbody>
             </Table>
           </TableContainer>
 
-          <Stack spacing={6} direction={["column", "row"]}>
-            <Button bg={"red.400"} color={"white"} w={"full"} size={"sm"} _hover={{ bg: "red.500" }} onClick={onClose}>
+          <Stack spacing={6} direction={["column", "row"]} mt={10} mb={3}>
+            <Button bg={"red.400"} color={"white"} w={"full"} size={"sm"} _hover={{ bg: "red.500" }} onClick={handleCancel}>
                 Cancel
             </Button>
             <Button bg={"blue.400"} color={"white"} w={"full"} size={"sm"} _hover={{ bg: "blue.500" }} isLoading={isUpdating} onClick={handleEditCategory}>

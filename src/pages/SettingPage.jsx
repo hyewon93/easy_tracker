@@ -3,6 +3,9 @@ import { MdModeEdit } from "react-icons/md";
 import EditProfileModal from '../components/settings/EditProfileModal';
 import useCategoryStore from '../store/categoryStore';
 import EditCategoryModal from '../components/settings/EditCategoryModal';
+import { useEffect, useState } from 'react';
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
+import { storage } from '../firebase/firebase';
 
 const SettingPage = () => {
 
@@ -23,6 +26,24 @@ const SettingPage = () => {
     } = useDisclosure();
     const authUser = JSON.parse(localStorage.getItem("user-info"));
     const categories = useCategoryStore(state => state.categories);
+    const [categoryIcons, setCategoryIcons] = useState([]);
+
+    useEffect(() => {
+        setCategoryIcons([]);
+
+        const icons = [];
+        const iconsRef = ref(storage, 'icons');
+
+        listAll(iconsRef)
+        .then((res) => {
+            res.items.forEach(async (iconRef) => {
+                const URL = await getDownloadURL(iconRef);
+                icons.push(URL);
+            });
+        });
+
+        setCategoryIcons(icons);
+    }, []);
 
     return (
         <Container maxW={"container.lg"} py={5}>
@@ -75,13 +96,13 @@ const SettingPage = () => {
                                         <Td justifyContent={"center"}><Tag size={"md"} variant={"solid"} bg={category.color}/></Td>
                                         <Td><Text>{category.name}</Text></Td>
                                     </Tr>
-                                ))};
+                                ))}
                                 
                             </Tbody>
                         </Table>
                     </TableContainer>
 
-                    {isOpenIncomeCategory && <EditCategoryModal type={"income"} isOpen={isOpenIncomeCategory} onClose={onCloseIncomeCategory} /> }
+                    {isOpenIncomeCategory && <EditCategoryModal type={"income"} icons={categoryIcons} isOpen={isOpenIncomeCategory} onClose={onCloseIncomeCategory} /> }
                 </Flex>
             </Flex>
             <Flex pb={10} pl={10} mt={5} w={"full"} mx={"auto"} flexDirection={"column"} bg={"white"} borderRadius={10}>
@@ -111,12 +132,12 @@ const SettingPage = () => {
                                         <Td justifyContent={"center"}><Tag size={"md"} variant={"solid"} bg={category.color}/></Td>
                                         <Td><Text>{category.name}</Text></Td>
                                     </Tr>
-                                ))};
+                                ))}
                             </Tbody>
                         </Table>
                     </TableContainer>
 
-                    {isOpenExpensesCategory && <EditCategoryModal type={"expenses"} isOpen={isOpenExpensesCategory} onClose={onCloseExpensesCategory} /> }
+                    {isOpenExpensesCategory && <EditCategoryModal type={"expenses"} icons={categoryIcons} isOpen={isOpenExpensesCategory} onClose={onCloseExpensesCategory} /> }
                 </Flex>
             </Flex>
         </Container>

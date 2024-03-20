@@ -15,25 +15,25 @@ const useUpdateCategories = () => {
   const setCategory = useCategoryStore((state) => state.setCategory);
   const currentCategories = useCurrentCategoryStore((state) => state.currentCategories);
 
-  const updateCategories = async () => {
+  const updateCategories = async (uid) => {
 
     setIsUpdating(true);
 
     try {
 
-      const categoryRef = (doc(firestore, "categories", authUser.uid));
+      const categoryRef = (doc(firestore, "categories", uid ? uid : authUser?.uid));
       const categorySnap = await getDoc(categoryRef);
 
       if(!categorySnap.exists()) {
         // Create
 
-        await setDoc(doc(firestore, "categories", authUser.uid), defaultCategory);
+        await setDoc(doc(firestore, "categories", uid ? uid : authUser?.uid), defaultCategory);
         setCategory(defaultCategory);
 
       } else {
         // Update
 
-        await setDoc(doc(firestore, "categories", authUser.uid), currentCategories);
+        await setDoc(doc(firestore, "categories", uid ? uid : authUser?.uid), currentCategories);
         setCategory(currentCategories);
 
         showToast("Success", "Category updated successfully", "success");

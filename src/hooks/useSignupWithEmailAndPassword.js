@@ -33,7 +33,7 @@ const useSignupWithEmailAndPassword = () => {
             return;
         }
 
-        try {updateCategories
+        try {
             const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
 
             if(!newUser && error) {
@@ -55,7 +55,7 @@ const useSignupWithEmailAndPassword = () => {
                 loginUser(userDoc);
 
                 // Create Category
-                await updateCategories({uid: newUser.user.uid});
+                await updateCategories(newUser.user.uid);
             }
 
         } catch (error) {
