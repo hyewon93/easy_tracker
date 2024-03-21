@@ -2,7 +2,6 @@ import { Box, Button, Flex, Image, Skeleton, Table, TableContainer, Tbody, Td, T
 import { IoAddOutline } from "react-icons/io5";
 import AddTransactionModal from "../components/modals/AddTransactionModal";
 import useGetTransactions from "../hooks/useGetTransactions";
-import { MdModeEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
 const TransactionPage = () => {
@@ -47,7 +46,6 @@ const TransactionPage = () => {
                                 <Td>{transaction.content}</Td>
                                 <Td textAlign={"right"}><Text color={transaction.type === "1" ? "blue" : "red"}>${((Number(transaction.amount)).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></Td>
                                 <Td>
-                                    <Button color={"blue.400"} bg={"transparent"} _hover={{ bg: "transparent" }}><MdModeEdit/></Button>
                                     <Button color={"red.400"} bg={"transparent"} _hover={{ bg: "transparent" }}><MdDelete/></Button>
                                 </Td>
                             </Tr>

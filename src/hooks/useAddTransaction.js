@@ -3,13 +3,15 @@ import useShowToast from './useShowToast';
 import useAuthStore from '../store/authStore';
 import { firestore } from '../firebase/firebase';
 import { collection, doc, setDoc } from '@firebase/firestore';
+import useTransactionStore from '../store/transactionStore';
 
 const useAddTransaction = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const addTransaction = useTransactionStore((state) => state.addTransaction);
     const showToast = useShowToast();
     const authUser = useAuthStore((state) => state.user);
 
-    const addTransaction = async (inputs) => {
+    const add_Transaction = async (inputs) => {
 
         if(isLoading || !authUser) return;
         setIsLoading(true);
@@ -27,12 +29,9 @@ const useAddTransaction = () => {
                 amount: inputs.amount,
             };
 
-            //const doc = await addDoc(collection(firestore, "transactions"), authUser.uid);
-            //const document = await setDoc(doc(firestore, "transactions", authUser.uid, "transactions"), transactionDoc)
-            //console.log(document.id);
-
             const docRef = doc(collection(firestore, "transactions", authUser.uid, inputs.date.slice(0,4)));
             await setDoc(docRef, transactionDoc);
+            addTransaction({...transactionDoc, id: docRef.id})
 
             showToast("Success", "Transaction added successfully", "success");
             setIsLoading(false);
@@ -42,7 +41,7 @@ const useAddTransaction = () => {
         }
     }
 
-    return {isLoading, addTransaction}
+    return {isLoading, add_Transaction}
 }
 
 export default useAddTransaction

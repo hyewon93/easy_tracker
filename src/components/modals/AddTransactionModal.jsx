@@ -25,7 +25,7 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
     const [type, setType] = useState("1");
     const [selectedDate, setSelectedDate] = useState(new Date());
     const categories = useCategoryStore(state => state.categories);
-    const {isLoading, addTransaction} = useAddTransaction();
+    const {isLoading, add_Transaction} = useAddTransaction();
     const showToast = useShowToast();
 
     const dateFormat = (date) => {
@@ -55,9 +55,9 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
 
         if(validation()) {
             try{
-                await addTransaction(inputs);
+                await add_Transaction(inputs);
                 onClose();
-                
+
             } catch (error) {
                 showToast("Error", error.message, "error");
             }

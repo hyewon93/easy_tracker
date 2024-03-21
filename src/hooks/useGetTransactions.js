@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
 import useAuthStore from "../store/authStore";
 import useShowToast from "./useShowToast";
-import { collection, getDoc, getDocs, query, where } from "@firebase/firestore";
+import { collection, getDocs, query } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase";
+import useTransactionStore from "../store/transactionStore";
 
 const useGetTransactions = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const [transactions, setTransactions] = useState([]);
+    const transactions = useTransactionStore((state) => state.transactions);
+    const setTransactions = useTransactionStore((state) => state.setTransactions);
     const authUser = useAuthStore((state) => state.user);
     const showToast = useShowToast();
 
