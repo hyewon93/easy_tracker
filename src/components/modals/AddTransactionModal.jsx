@@ -1,9 +1,13 @@
-import { Button } from "@chakra-ui/button"
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
-import { Input } from "@chakra-ui/input"
-import { Flex, Stack } from "@chakra-ui/layout"
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/modal"
-import { useState } from "react"
+import { Button } from "@chakra-ui/button";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { Input, InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/input";
+import { Box, Flex, Stack } from "@chakra-ui/layout";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
+import { Radio, RadioGroup } from "@chakra-ui/radio";
+import { useState } from "react";
+import DatePicker from 'react-datepicker';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddTransactionModal = ({ isOpen, onClose }) => {
 
@@ -13,6 +17,7 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
         content: "",
         amount: ""
     });
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -22,16 +27,10 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
                 <ModalCloseButton />
                 <ModalBody>
                     <Flex direction={"column"}>
-                        <Stack spacing={4} w={"full"} maxW={"md"} p={6}>
+                        <Stack spacing={6} w={"full"} maxW={"md"} p={6}>
                             <FormControl>
                                 <FormLabel fontSize={"sm"}>Date</FormLabel>
-                                <Input
-                                    placeholder="Date"
-                                    size={"sm"}
-                                    type="text"
-                                    value={inputs.date}
-                                    onChange={(e) => setInputs({...inputs, date: e.target.value})}
-                                />
+                                <DatePicker selected={selectedDate} onSelect={(date) => setSelectedDate(date)} dateFormat={"yyyy-MM-dd"} style={{ cursor: "pointer" }}/>
                             </FormControl>
 
                             <FormControl>
@@ -57,14 +56,29 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
                             </FormControl>
 
                             <FormControl>
+                                <FormLabel fontSize={"sm"}>Type</FormLabel>
+                                <RadioGroup>
+                                    <Stack spacing={5} direction={"row"}>
+                                        <Radio colorScheme="blue" value="1">Income</Radio>
+                                        <Radio colorScheme="red" value="2">Expense</Radio>
+                                    </Stack>
+                                </RadioGroup>
+                            </FormControl>
+
+                            <FormControl>
                                 <FormLabel fontSize={"sm"}>Amount</FormLabel>
-                                <Input
-                                    placeholder="Amount"
-                                    size={"sm"}
-                                    type="text"
-                                    value={inputs.amount}
-                                    onChange={(e) => setInputs({...inputs, amount: e.target.value})}
-                                />
+                                <InputGroup>
+                                    <InputLeftElement pointerEvents={"none"} color={"gray.300"} fontSize={"1em"} w={"10%"} pb={2}>
+                                    $
+                                    </InputLeftElement>
+                                    <Input
+                                        placeholder="Amount"
+                                        size={"sm"}
+                                        type="number"
+                                        value={inputs.amount}
+                                        onChange={(e) => setInputs({...inputs, amount: e.target.value})}
+                                    />
+                                </InputGroup>
                             </FormControl>
                         </Stack>
 
