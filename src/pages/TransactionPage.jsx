@@ -1,10 +1,14 @@
-import { Button, Flex, Image, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react";
 import { IoAddOutline } from "react-icons/io5";
 import AddTransactionModal from "../components/modals/AddTransactionModal";
+import useGetTransactions from "../hooks/useGetTransactions";
+import { MdModeEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const TransactionPage = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const {isLoading, transactions} = useGetTransactions();
 
     return (
         <Flex direction={"column"} p={"70px"}>
@@ -13,46 +17,45 @@ const TransactionPage = () => {
                 <Button colorScheme={"teal"} size='sm' onClick={onOpen}><IoAddOutline size={20} style={{marginRight: "10px"}}/>Add Transaction</Button>
                 <AddTransactionModal isOpen={isOpen} onClose={onClose} />
             </Flex>
+            {isLoading && (
+            <Skeleton w={"full"}>
+                <Box h={"500px"}>Contents Wrapped</Box>
+            </Skeleton>
+            )}
+            {!isLoading && (
             <TableContainer bg={"white"}>
                 <Table variant={"simple"}>
                     <Thead>
                         <Tr>
-                            <Th>Date</Th>
-                            <Th>Category</Th>
+                            <Th w={"20%"}>Date</Th>
+                            <Th w={"25%"}>Category</Th>
                             <Th>Content</Th>
-                            <Th>Amount</Th>
+                            <Th textAlign={"right"} w={"20%"}>Amount</Th>
+                            <Th w={"10%"}></Th>
                         </Tr>
                     </Thead>
                     <Tbody>
-                        <Tr>
-                            <Td>03.01</Td>
-                            <Td>
-                                <Flex direction={"row"}>
-                                    <Image width={"30px"} src="https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_money.png?alt=media&token=4f28204a-b101-4f97-a2ef-8783880e3c62"/>
-                                    <Text ml={5}>Household</Text>
-                                </Flex>
-                            </Td>
-                            <Td>
-                                Salary
-                            </Td>
-                            <Td><Text color={"blue"}>$2,000.00</Text></Td>
-                        </Tr>
-                        <Tr>
-                            <Td>03.01</Td>
-                            <Td>
-                                <Flex direction={"row"}>
-                                    <Image width={"30px"} src="https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F2_home_738873.png?alt=media&token=8448cd6d-2aec-49f8-b9c7-792816f08aa3"/>
-                                    <Text ml={5}>Household</Text>
-                                </Flex>
-                            </Td>
-                            <Td>
-                                Rent
-                            </Td>
-                            <Td><Text color={"red"}>$1,500.00</Text></Td>
-                        </Tr>
+                        {transactions.map((transaction, idx) => (
+                            <Tr key={idx}>
+                                <Td>{transaction.date}</Td>
+                                <Td>
+                                    <Flex direction={"row"}>
+                                        <Image width={"25px"} src={transaction.categoryIcon}/>
+                                        <Text ml={5}>{transaction.categoryName}</Text>
+                                    </Flex>
+                                </Td>
+                                <Td>{transaction.content}</Td>
+                                <Td textAlign={"right"}><Text color={transaction.type === "1" ? "blue" : "red"}>${((Number(transaction.amount)).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></Td>
+                                <Td>
+                                    <Button color={"blue.400"} bg={"transparent"} _hover={{ bg: "transparent" }}><MdModeEdit/></Button>
+                                    <Button color={"red.400"} bg={"transparent"} _hover={{ bg: "transparent" }}><MdDelete/></Button>
+                                </Td>
+                            </Tr>
+                        ))}
                     </Tbody>
                 </Table>
             </TableContainer>
+            )}
         </Flex>
     )
 }
