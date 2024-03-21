@@ -24,9 +24,13 @@ const SettingPage = () => {
         onOpen: onOpenExpensesCategory, 
         onClose: onCloseExpensesCategory 
     } = useDisclosure();
+    
     const authUser = JSON.parse(localStorage.getItem("user-info"));
     const categories = useCategoryStore(state => state.categories);
     const [categoryIcons, setCategoryIcons] = useState([]);
+
+    console.log("categories in settings : ");
+    console.log(categories);
 
     useEffect(() => {
         setCategoryIcons([]);
