@@ -1,13 +1,17 @@
-import { Button, Flex, Image, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Button, Flex, Image, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react";
 import { IoAddOutline } from "react-icons/io5";
+import AddTransactionModal from "../components/modals/AddTransactionModal";
 
 const TransactionPage = () => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Flex direction={"column"} p={"70px"}>
             <Text fontSize={"4xl"} fontWeight={"bold"} mb={10}>Transactions</Text>
             <Flex justifyContent={"flex-end"} mb={7}>
-                <Button colorScheme={"teal"} size='sm'><IoAddOutline size={20} style={{marginRight: "10px"}}/>Add Transaction</Button>
+                <Button colorScheme={"teal"} size='sm' onClick={onOpen}><IoAddOutline size={20} style={{marginRight: "10px"}}/>Add Transaction</Button>
+                <AddTransactionModal isOpen={isOpen} onClose={onClose} />
             </Flex>
             <TableContainer bg={"white"}>
                 <Table variant={"simple"}>

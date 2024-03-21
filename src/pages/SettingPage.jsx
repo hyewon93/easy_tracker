@@ -1,8 +1,8 @@
 import { Avatar, AvatarGroup, Button, Container, Flex, Image, Table, TableContainer, Tag, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from '@chakra-ui/react';
 import { MdModeEdit } from "react-icons/md";
-import EditProfileModal from '../components/settings/EditProfileModal';
+import EditProfileModal from '../components/modals/EditProfileModal';
 import useCategoryStore from '../store/categoryStore';
-import EditCategoryModal from '../components/settings/EditCategoryModal';
+import EditCategoryModal from '../components/modals/EditCategoryModal';
 import { useEffect, useState } from 'react';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { storage } from '../firebase/firebase';
@@ -24,13 +24,10 @@ const SettingPage = () => {
         onOpen: onOpenExpensesCategory, 
         onClose: onCloseExpensesCategory 
     } = useDisclosure();
-    
+
     const authUser = JSON.parse(localStorage.getItem("user-info"));
     const categories = useCategoryStore(state => state.categories);
     const [categoryIcons, setCategoryIcons] = useState([]);
-
-    console.log("categories in settings : ");
-    console.log(categories);
 
     useEffect(() => {
         setCategoryIcons([]);
