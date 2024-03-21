@@ -22,6 +22,8 @@ const useAddTransaction = () => {
             const transactionDoc = {
                 uid: authUser.uid,
                 type: inputs.type,
+                year: inputs.year,
+                month: inputs.month,
                 date: inputs.date,
                 categoryIcon: inputs.category.url,
                 categoryColor: inputs.category.color,
@@ -30,7 +32,7 @@ const useAddTransaction = () => {
                 amount: inputs.amount,
             };
 
-            const docRef = doc(collection(firestore, "transactions", authUser.uid, inputs.date.slice(0,4)));
+            const docRef = doc(collection(firestore, "users", authUser.uid, "transactions"));
             await setDoc(docRef, transactionDoc);
 
             addTransaction({...transactionDoc, id: docRef.id});

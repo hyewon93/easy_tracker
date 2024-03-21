@@ -1,15 +1,27 @@
-import { Box, Button, Flex, Image, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Select, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react";
 import { IoAddOutline } from "react-icons/io5";
 import AddTransactionModal from "../components/modals/AddTransactionModal";
 import useGetTransactions from "../hooks/useGetTransactions";
 import { MdDelete } from "react-icons/md";
 import useDeleteTransaction from "../hooks/useDeleteTransaction";
+import { useState } from "react";
 
 const TransactionPage = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const {isLoading, transactions} = useGetTransactions();
+    const [currentYear, setCurrentYear] = useState((new Date()).getFullYear());
+    const [currentMonth, setCurrentMonth] = useState((new Date()).getMonth()+1);
+    const {isLoading, transactions, years} = useGetTransactions(currentYear, currentMonth);
     const {isDeleting, delete_transaction} = useDeleteTransaction();
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const handleChangeDate = (type, value) => {
+        if(type === "year") {
+            setCurrentYear(value);
+        } else {
+            setCurrentMonth(value);
+        }
+    }
 
     const handleDelete = (transaction) => {
         delete_transaction(transaction);
@@ -18,10 +30,23 @@ const TransactionPage = () => {
     return (
         <Flex direction={"column"} p={"70px"}>
             <Text fontSize={"4xl"} fontWeight={"bold"} mb={10}>Transactions</Text>
-            <Flex justifyContent={"flex-end"} mb={7}>
+            <Flex direction={"row"} justifyContent={"space-between"} mb={7}>
+                <Flex direction={"row"} justifyContent={"flex-start"} gap={4}>
+                    <Select w={"150px"} maxW={"300px"} bg={"white"} defaultValue={currentYear} onChange={(e) => handleChangeDate("year", e.target.value)}>
+                        {years.map((year,idx) => (
+                            <option value={year} key={idx}>{year}</option>
+                        ))}
+                    </Select>
+                    <Select w={"100px"} maxW={"100px"} bg={"white"} defaultValue={currentMonth} onChange={(e) => handleChangeDate("month", e.target.value)}>
+                        {months.map((month, idx) => (
+                            <option value={idx+1} key={idx}>{month}</option>
+                        ))}
+                    </Select>
+                </Flex>
                 <Button colorScheme={"teal"} size='sm' onClick={onOpen}><IoAddOutline size={20} style={{marginRight: "10px"}}/>Add Transaction</Button>
                 <AddTransactionModal isOpen={isOpen} onClose={onClose} />
             </Flex>
+            
             {(isLoading || isDeleting) && (
             <Skeleton w={"full"}>
                 <Box h={"500px"}>Contents Wrapped</Box>

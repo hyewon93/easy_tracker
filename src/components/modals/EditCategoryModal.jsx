@@ -39,9 +39,7 @@ const EditCategoryModal = ({ type, icons, isOpen, onClose }) => {
       color: "#a8aeb2",
       url: "https://firebasestorage.googleapis.com/v0/b/easy-tracker-e2a70.appspot.com/o/icons%2F1_save-instagram.png?alt=media&token=dc8dae88-01f3-4961-849d-25fff970d800", 
     };
-    console.log(categories);
     setCurrentCategories(tempCategories);
-    console.log(categories);
   }
 
   const handleDeleteCategory = (idx) => {

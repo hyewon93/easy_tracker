@@ -17,6 +17,8 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
 
     const [inputs, setInputs] = useState({
         type: "",
+        year: "",
+        month: "",
         date: "",
         category: "",
         content: "",
@@ -51,11 +53,24 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
 
     const handleSubmit = async () => {
         inputs.type = type;
+        inputs.year = selectedDate.getFullYear();
+        inputs.month = selectedDate.getMonth() + 1;
         inputs.date = dateFormat(selectedDate);
 
         if(validation()) {
             try{
                 await add_Transaction(inputs);
+                setInputs({
+                    type: "",
+                    year: "",
+                    month: "",
+                    date: "",
+                    category: "",
+                    content: "",
+                    amount: "",
+                });
+                setType("1");
+                setSelectedDate(new Date());
                 onClose();
 
             } catch (error) {
@@ -64,8 +79,6 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
         } else {
             showToast("Error", "Please fill all field with valid values.", "error");
         }
-
-        console.log(inputs);
     };
 
     return (
