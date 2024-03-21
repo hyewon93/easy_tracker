@@ -22,9 +22,7 @@ const EditCategoryModal = ({ type, icons, isOpen, onClose }) => {
     
   const showToast = useShowToast();
 
-  useEffect(() => {
-    
-
+  useEffect(() => {    
     async function fetchData() {
       const categoryDocRef = doc(firestore, "categories", authUser?.uid);
       const categoryDocSnap = await getDoc(categoryDocRef);
