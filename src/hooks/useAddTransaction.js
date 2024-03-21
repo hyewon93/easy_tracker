@@ -8,6 +8,7 @@ import useTransactionStore from '../store/transactionStore';
 const useAddTransaction = () => {
     const [isLoading, setIsLoading] = useState(false);
     const addTransaction = useTransactionStore((state) => state.addTransaction);
+    const sorttransactions = useTransactionStore((state) => state.sorttransactions);
     const showToast = useShowToast();
     const authUser = useAuthStore((state) => state.user);
 
@@ -31,7 +32,9 @@ const useAddTransaction = () => {
 
             const docRef = doc(collection(firestore, "transactions", authUser.uid, inputs.date.slice(0,4)));
             await setDoc(docRef, transactionDoc);
-            addTransaction({...transactionDoc, id: docRef.id})
+
+            addTransaction({...transactionDoc, id: docRef.id});
+            sorttransactions();
 
             showToast("Success", "Transaction added successfully", "success");
             setIsLoading(false);

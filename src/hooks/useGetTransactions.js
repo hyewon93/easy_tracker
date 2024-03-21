@@ -25,7 +25,7 @@ const useGetTransactions = () => {
                     tempTransactions.push({id: doc.id, ...doc.data()});
                 });
 
-                tempTransactions.sort((a,b) => b.date - a.date);
+                tempTransactions.sort((a,b) => (new Date(b.date)) - (new Date(a.date)));
                 setTransactions(tempTransactions);
 
             } catch (error) {
