@@ -7,7 +7,7 @@ import useCategoryStore from "../../store/categoryStore";
 import IconTemplate from "../templates/IconTemplate";
 import { MdDelete } from "react-icons/md";
 import { IoAddOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
 import useAuthStore from "../../store/authStore";
@@ -67,13 +67,6 @@ const EditCategoryModal = ({ type, icons, isOpen, onClose }) => {
   }
 
   const handleCancel = () => {
-
-    console.log("cancel categories: ");
-    console.log(categories);
-    const {...tempCategories} = categories;
-    console.log("after: ");
-    console.log(tempCategories);
-    console.log(categories);
 
     onClose();
     

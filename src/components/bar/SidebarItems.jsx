@@ -25,7 +25,7 @@ const SidebarItems = () => {
         </Link>
         <Link 
             display={"flex"}
-            to="/"
+            to="/transactions"
             as={RouterLink}
             alignItems={"center"}
             gap={4}
