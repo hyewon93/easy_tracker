@@ -3,11 +3,17 @@ import { IoAddOutline } from "react-icons/io5";
 import AddTransactionModal from "../components/modals/AddTransactionModal";
 import useGetTransactions from "../hooks/useGetTransactions";
 import { MdDelete } from "react-icons/md";
+import useDeleteTransaction from "../hooks/useDeleteTransaction";
 
 const TransactionPage = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const {isLoading, transactions} = useGetTransactions();
+    const {isDeleting, delete_transaction} = useDeleteTransaction();
+
+    const handleDelete = (transaction) => {
+        delete_transaction(transaction);
+    }
 
     return (
         <Flex direction={"column"} p={"70px"}>
@@ -16,12 +22,12 @@ const TransactionPage = () => {
                 <Button colorScheme={"teal"} size='sm' onClick={onOpen}><IoAddOutline size={20} style={{marginRight: "10px"}}/>Add Transaction</Button>
                 <AddTransactionModal isOpen={isOpen} onClose={onClose} />
             </Flex>
-            {isLoading && (
+            {(isLoading || isDeleting) && (
             <Skeleton w={"full"}>
                 <Box h={"500px"}>Contents Wrapped</Box>
             </Skeleton>
             )}
-            {!isLoading && (
+            {(!isLoading && !isDeleting) && (
             <TableContainer bg={"white"}>
                 <Table variant={"simple"}>
                     <Thead>
@@ -46,7 +52,7 @@ const TransactionPage = () => {
                                 <Td>{transaction.content}</Td>
                                 <Td textAlign={"right"}><Text color={transaction.type === "1" ? "blue" : "red"}>${((Number(transaction.amount)).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></Td>
                                 <Td>
-                                    <Button color={"red.400"} bg={"transparent"} _hover={{ bg: "transparent" }}><MdDelete/></Button>
+                                    <Button color={"red.400"} bg={"transparent"} _hover={{ bg: "transparent" }} onClick={() => handleDelete(transaction)}><MdDelete/></Button>
                                 </Td>
                             </Tr>
                         ))}
