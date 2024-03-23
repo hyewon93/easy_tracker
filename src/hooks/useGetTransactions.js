@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import useAuthStore from "../store/authStore";
 import useShowToast from "./useShowToast";
-import { collection, doc, getDoc, getDocs, query, where } from "@firebase/firestore";
+import { collection, getDocs, query, where } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase";
 import useTransactionStore from "../store/transactionStore";
 
