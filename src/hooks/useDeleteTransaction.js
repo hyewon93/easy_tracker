@@ -2,7 +2,7 @@ import { useState } from "react";
 import useShowToast from "./useShowToast"
 import useTransactionStore from "../store/transactionStore";
 import useAuthStore from "../store/authStore";
-import { deleteDoc, doc } from "@firebase/firestore";
+import { collection, deleteDoc, doc } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase";
 
 const useDeleteTransaction = () => {
@@ -19,7 +19,7 @@ const useDeleteTransaction = () => {
 
         try {
             
-            const docRef = doc(firestore, "transactions", authUser.uid, "2024", transaction.id);
+            const docRef = doc(collection(firestore, "users", authUser.uid, "transactions"), transaction.id);
             await deleteDoc(docRef);
 
             deleteTransaction(transaction.id);

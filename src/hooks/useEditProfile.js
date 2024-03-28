@@ -3,12 +3,15 @@ import useShowToast from "./useShowToast";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { firestore, storage } from "../firebase/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import useAuthStore from "../store/authStore";
 
 const useEditProfile = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const showToast = useShowToast();
 
-    const authUser = JSON.parse(localStorage.getItem("user-info"));
+    const authUser = useAuthStore((state) => state.user);
+    const setAuthUser = useAuthStore((state) => state.setUser);
     
     const editProfile = async (inputs, selectedFile) => {
 
@@ -33,6 +36,7 @@ const useEditProfile = () => {
 
             await updateDoc(userDoc, updatedUser);
             localStorage.setItem("user-info", JSON.stringify(updatedUser));
+            setAuthUser(updatedUser);
 
             showToast("Success", "Profile updated successfully", "success");
 
