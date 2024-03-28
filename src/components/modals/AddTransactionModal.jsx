@@ -136,7 +136,7 @@ const AddTransactionModal = ({ isOpen, onClose }) => {
                                         size={"sm"}
                                         type="number"
                                         value={inputs.amount}
-                                        onChange={(e) => setInputs({...inputs, amount: e.target.value})}
+                                        onChange={(e) => setInputs({...inputs, amount: Number(e.target.value)})}
                                     />
                                 </InputGroup>
                             </FormControl>

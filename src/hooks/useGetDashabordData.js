@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useShowToast from "./useShowToast";
 import useAuthStore from "../store/authStore";
-import { collection, getDocs, query, where } from "@firebase/firestore";
+import { collection, getAggregateFromServer, getDocs, query, sum, where } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase";
 
 const useGetDashabordData = (currentYear, currentMonth) => {
@@ -11,6 +11,7 @@ const useGetDashabordData = (currentYear, currentMonth) => {
     const [categoryTransactions, setCategoryTransactions] = useState([]);
     const authUser = useAuthStore((state) => state.user);
     const showToast = useShowToast();
+    const years = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     useEffect(() => {
         const getDashboardData = async () => {
@@ -57,7 +58,67 @@ const useGetDashabordData = (currentYear, currentMonth) => {
                         }
                         return acc;
                     }, {});
+
+                    // Income and Expense in last 6 months
+                    const last6Months = {
+                        "years": [],
+                        "income" : [],
+                        "expense" : []
+                    };
+
+                    let temp_currentYear = Number(currentYear);
+                    let temp_currentMonth = Number(currentMonth);
+                    let currentMonthIdx = Number(currentMonth)-1;
+                    for(let i=6; i>0; i--) {
+
+                        const coll = collection(firestore, "users", authUser.uid, "transactions");
+
+                        // Income
+                        const temp_income_q = query(coll, 
+                            where('type', '==', "1"),
+                            where('year', '==', temp_currentYear),
+                            where('month', '==', temp_currentMonth)
+                        );
+                        const income_snapshot = await getAggregateFromServer(temp_income_q, {
+                            totalAmount: sum('amount')
+                        });
+                        last6Months.income.push(income_snapshot.data().totalAmount);
+
+                        // Expense
+                        const temp_expense_q = query(coll, 
+                            where('type', '==', "2"),
+                            where('year', '==', temp_currentYear),
+                            where('month', '==', temp_currentMonth)
+                        );
+                        const expense_snapshot = await getAggregateFromServer(temp_expense_q, {
+                            totalAmount: sum('amount')
+                        });
+                        last6Months.expense.push(expense_snapshot.data().totalAmount);
+
+                        if(currentMonthIdx < 0) {
+                            last6Months.years.push(years[years.length + currentMonthIdx]);
+                            temp_currentMonth--;
+
+                        } else if(currentMonthIdx == 0) {
+                            last6Months.years.push(years[currentMonthIdx]); 
+                            temp_currentYear--;
+                            temp_currentMonth = years.length;
+
+                        } else {
+                            last6Months.years.push(years[currentMonthIdx]);                            
+                            temp_currentMonth--;
+                        }
+
+                        currentMonthIdx--;
+                    }
+
+                    last6Months.income.reverse();
+                    last6Months.expense.reverse();
+                    last6Months.years.reverse();
+
+                    console.log(last6Months);
     
+                    // Expenses by category
                     const expenseCategories = [];
                     for(let category in result) {
                         let totalCategoryAmount = 0;
