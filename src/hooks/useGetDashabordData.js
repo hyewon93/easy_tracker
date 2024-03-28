@@ -9,6 +9,7 @@ const useGetDashabordData = (currentYear, currentMonth) => {
     const [totalExpense, setTotalExpense] = useState(0);
     const [totalIncome, setTotalIncome] = useState(0);
     const [categoryTransactions, setCategoryTransactions] = useState([]);
+    const [last6Months, setLast6Months] = useState({});
     const authUser = useAuthStore((state) => state.user);
     const showToast = useShowToast();
     const years = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -60,7 +61,7 @@ const useGetDashabordData = (currentYear, currentMonth) => {
                     }, {});
 
                     // Income and Expense in last 6 months
-                    const last6Months = {
+                    const temp_last6Months = {
                         "years": [],
                         "income" : [],
                         "expense" : []
@@ -82,7 +83,7 @@ const useGetDashabordData = (currentYear, currentMonth) => {
                         const income_snapshot = await getAggregateFromServer(temp_income_q, {
                             totalAmount: sum('amount')
                         });
-                        last6Months.income.push(income_snapshot.data().totalAmount);
+                        temp_last6Months.income.push(income_snapshot.data().totalAmount);
 
                         // Expense
                         const temp_expense_q = query(coll, 
@@ -93,30 +94,30 @@ const useGetDashabordData = (currentYear, currentMonth) => {
                         const expense_snapshot = await getAggregateFromServer(temp_expense_q, {
                             totalAmount: sum('amount')
                         });
-                        last6Months.expense.push(expense_snapshot.data().totalAmount);
+                        temp_last6Months.expense.push(expense_snapshot.data().totalAmount);
 
                         if(currentMonthIdx < 0) {
-                            last6Months.years.push(years[years.length + currentMonthIdx]);
+                            temp_last6Months.years.push(years[years.length + currentMonthIdx]);
                             temp_currentMonth--;
 
                         } else if(currentMonthIdx == 0) {
-                            last6Months.years.push(years[currentMonthIdx]); 
+                            temp_last6Months.years.push(years[currentMonthIdx]); 
                             temp_currentYear--;
                             temp_currentMonth = years.length;
 
                         } else {
-                            last6Months.years.push(years[currentMonthIdx]);                            
+                            temp_last6Months.years.push(years[currentMonthIdx]);                            
                             temp_currentMonth--;
                         }
 
                         currentMonthIdx--;
                     }
 
-                    last6Months.income.reverse();
-                    last6Months.expense.reverse();
-                    last6Months.years.reverse();
+                    temp_last6Months.income.reverse();
+                    temp_last6Months.expense.reverse();
+                    temp_last6Months.years.reverse();
 
-                    console.log(last6Months);
+                    setLast6Months(temp_last6Months);
     
                     // Expenses by category
                     const expenseCategories = [];
@@ -152,7 +153,7 @@ const useGetDashabordData = (currentYear, currentMonth) => {
         if(authUser) getDashboardData();
     }, [authUser, showToast, currentYear, currentMonth]);
 
-    return {isLoading, totalExpense, totalIncome, categoryTransactions}
+    return {isLoading, totalExpense, totalIncome, categoryTransactions, last6Months}
 }
 
 export default useGetDashabordData
